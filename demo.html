@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-orange.min.css">
+<link rel="preload" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="visibly.js"></script>
+  <style>
+    span{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 3%;
+    font-size: 12pt;
+    }
+    .footer {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size:large;
+      padding-left: 5%;
+      background-color: aquamarine;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"><header class="mdl-layout__header"><div class="mdl-layout__header-row">
+      <span class="mdl-layout-title"><b>arcturus10</b> > PageVisibility Test</span>
+    </div></header>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <h2>A simple test page demonstrating the PageVisibility API in action.</h2>
+          <p>If you create a new tab or click outside the main browser application window, you should see the title of the document change.</p>
+          <p>Also, different sounds will play depending on the visibility state.</p>
+          <caption>Powered by <b>visibly.js</b> - A shim for the Page Visibility API</caption>
+<span><h3>Why care about page visibility?</h3>
+<a href="https://tinyurl.com/visibly-js"><button class="mdl-button mdl-js-button mdl-js-ripple-effect"><b>visibly.js</b></button></a>
+<div>Creating user experiences around page visibility detection allows one to improve performance by opting to do things such as stopping data-streams/AJAX requests from being pulled should they decide to switch tabs. Data-flow can then be resumed when a user tabs back with very little visible cost to the experience.
+However, The Page Visibility API starts to be commonly used to pause mandatory video advertisements when the tab is not in focus.
+This means you need to be watching the ad, if you switch tab or even have another app or menu covering the browser window, the ad will pause and prevent access to the content.
+</div>
+</span>
+      <audio id="warn"><source src="Hidden.wav"></audio>
+      <audio id="visibilitychange"><source src="change.wav"></audio>
+      <audio id="visible"><source src="NowVisible.wav"></audio>
+
+			<script>
+      var warn = document.getElementById("warn");
+			visibly.onHidden(function (){
+            //Warn the User
+			      Swal.fire({
+  			      title: 'Error! Document Hidden',
+  			      text: 'Do you want to continue',
+  			      icon: 'error',
+  			      confirmButtonText: 'Alright!'
+			      });
+      warn.play()
+		});
+			visibly.visibilitychange(function(state){
+      //Log a Message to the Console
+			console.log('Page visibility state is:' + state);
+      //Change Document Title
+			document.title = state;
+      //Play Audio
+      var y = document.getElementById('visibilitychange');
+      y.play()
+		});
+    visibly.onVisible(function (){
+      var z = document.getElementById("visible");
+      z.play()
+      warn.pause()
+      warn.currentTime = 0;
+    });
+			</script>
+		</div>
+      </main>
+    </div>
+  </body>
+</html>
